@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aadhaar Crop &amp; Print</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M2 6h14a2 2 0 0 1 2 2v14"/></svg>
+    <span>Aadhaar Crop &amp; Print</span>
+  </div>
+  <ol class="steps" id="steps">
+    <li data-s="1" class="on">Upload</li><li data-s="2">Crop</li><li data-s="3">Preview</li><li data-s="4">Download</li>
+  </ol>
+</header>
+
+<main>
+  <!-- 1. Upload -->
+  <section id="s1">
+    <h1>Print Aadhaar front and back on one 4 × 6 in page</h1>
+    <p class="lead">Upload the A4 Aadhaar PDF or photo. Everything happens in your browser, and nothing is uploaded anywhere.</p>
+    <div class="drop" id="drop" tabindex="0">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+      <p class="big">Drag and drop your file here</p>
+      <p class="muted">PDF, JPG or JPEG</p>
+      <button class="btn primary" id="choose" type="button">Choose File</button>
+      <input type="file" id="file" accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg" hidden>
+    </div>
+    <div class="fileinfo" id="fileinfo" hidden></div>
+    <div class="pw" id="pwbox" hidden>
+      <label for="pw">This PDF is password protected. Enter the password to open it.</label>
+      <div class="row">
+        <input type="password" id="pw" autocomplete="off" placeholder="Password">
+        <button class="btn primary" id="openpdf" type="button">Open PDF</button>
+      </div>
+    </div>
+    <p class="error" id="err" role="alert" hidden></p>
+  </section>
+
+  <!-- 2. Crop -->
+  <section id="s2" hidden>
+    <h2>Check the two cards</h2>
+    <p class="lead">Drag a box to move it. Drag a corner to resize it. Adjust until each box fits one card exactly.</p>
+    <div class="notice" id="notice" hidden></div>
+    <div class="stage" id="stage"><canvas id="src"></canvas><div id="overlay"></div></div>
+    <ul class="checks" id="checks"></ul>
+    <div class="actions">
+      <button class="btn" id="swap" type="button">Swap front and back</button>
+      <button class="btn" id="redetect" type="button">Detect again</button>
+      <span class="grow"></span>
+      <button class="btn ghost" data-restart type="button">Start Again</button>
+      <button class="btn primary" id="toPreview" type="button">Continue</button>
+    </div>
+  </section>
+
+  <!-- 3/4. Preview + Download -->
+  <section id="s3" hidden>
+    <h2>Final page</h2>
+    <p class="lead" id="specs">4 × 6 in page (288 × 432 pt). Each card is 8.5 × 5.5 cm.</p>
+    <div class="previewwrap"><canvas id="prev"></canvas></div>
+    <div class="gap">
+      <label for="gap">Gap between cards: <b id="gapv">5</b> mm</label>
+      <input type="range" id="gap" min="2" max="20" step="1" value="5">
+    </div>
+    <p class="done" id="done" hidden></p>
+    <div class="actions">
+      <button class="btn" id="back" type="button">Back to crop</button>
+      <span class="grow"></span>
+      <button class="btn ghost" data-restart type="button">Start Again</button>
+      <button class="btn" id="print" type="button">Print</button>
+      <button class="btn primary" id="download" type="button">Download PDF</button>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
